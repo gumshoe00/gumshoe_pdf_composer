@@ -20,7 +20,7 @@ outfile = 'outfilename.pdf'
 files = ['infilename1.pdf', 'infilename2.pdf']
 compose(outfile, *files)
 
-# [ Created ]: temp/P2290101177/output.pdf
+# [ Created ]: outfilename.pdf
 
 ```
 
