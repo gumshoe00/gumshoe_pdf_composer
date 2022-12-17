@@ -6,7 +6,7 @@ Composes one PDF file from the given PDF files, in the order they were given.
 
 ## Installation
 
-To install, run `from gumshoePDFComposer import compose`
+To install, run `pip install gumshoePDFComposer`
 
 
 
