@@ -1,8 +1,0 @@
-README.md
-setup.py
-src/gumshoe_pdf_composer.egg-info/PKG-INFO
-src/gumshoe_pdf_composer.egg-info/SOURCES.txt
-src/gumshoe_pdf_composer.egg-info/dependency_links.txt
-src/gumshoe_pdf_composer.egg-info/entry_points.txt
-src/gumshoe_pdf_composer.egg-info/requires.txt
-src/gumshoe_pdf_composer.egg-info/top_level.txt
