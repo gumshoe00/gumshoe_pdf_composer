@@ -16,7 +16,7 @@ To install, run `pip install gumshoePDFComposer`
 
 import gumshoePDFComposer as compose
 
-outfile = 'temp/P2290101177/outfilename.pdf'
+outfile = 'outfilename.pdf'
 files = ['infilename1.pdf', 'infilename2.pdf']
 compose(outfile, *files)
 
