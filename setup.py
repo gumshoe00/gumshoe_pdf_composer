@@ -12,7 +12,7 @@ with open('LICENSE', 'r') as lfl:
 
 
 setup(
-    name='pdf-composer',
+    name='pdfcomposer',
     version='1.0.0',
     description='Composes one PDF from the given pdf files, in the given sequence.',
     url='https://github.com/gumshoe00/gumshoe_pdf_composer',
@@ -24,13 +24,13 @@ setup(
     maintainer_email='gumshoe.media.inc@gmail.com',
     license=license_content,
     package_dir={'': 'src'},
-    py_modules=find_packages('pdf_composer'),
+    py_modules=find_packages('pdfcomposer'),
 
     install_requires=["setuptools", "importlib-metadata<5.0", "wheel"],
     python_requires='>=3.7',
     entry_points={
-        "console_scripts": ["pdf-composer=pdf_composer.__main__:main",],
-        "pdf_composer.output": ["default=pdf_composer.__main__:default",],
+        "console_scripts": ["pdfcomposer=pdfcomposer.__main__:main",],
+        "pdfcomposer.output": ["default=pdfcomposer.__main__:default",],
     },
     keywords=['PDF', 'composer', 'python3'],
     classifiers=[
