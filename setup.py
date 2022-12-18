@@ -12,19 +12,27 @@ with open('LICENSE', 'r') as lfl:
 
 
 setup(
-    name='gumshoe-pdf-composer',
+    name='pdf-composer',
     version='1.0.0',
-    description='',
+    description='Composes one PDF from the given pdf files, in the given sequence.',
+    url='https://github.com/gumshoe00/gumshoe_pdf_composer',
     long_description=readme_content,
     long_description_content_type='text/markdown',
     author='smikhail',
     author_email='gumshoe.media.inc@gmail.com',
+    maintainer='Gumshoe Media Inc.',
+    maintainer_email='gumshoe.media.inc@gmail.com',
     license=license_content,
-    py_modules=['gumshoe_pdf_composer'],
     package_dir={'': 'src'},
-    install_requires=["pikepdf", "python_version>='3.7'"],
-    entry_points={"console_scripts": ["gumshoePdfCompose=src.gumshoe_pdf_compose:compose"]},
-    keywords=['pdf', 'composer', 'python3+'],
+    py_modules=find_packages(['src.pdf_composer', 'src.pdf_composer.*']),
+
+    install_requires=["setuptools", "wheel", "importlib.metadata"],
+    python_requires='>=3.7',
+    entry_points={
+        "console_scripts": ["pdf-composer=pdf_composer.__main__:main",],
+        "pdf_composer.output": ["default=pdf_composer.__main__:default",],
+    },
+    keywords=['PDF', 'composer', 'python3'],
     classifiers=[
         "Programming Language :: Python :: 3.7",
         "Operating System :: MacOS :: MacOS X",

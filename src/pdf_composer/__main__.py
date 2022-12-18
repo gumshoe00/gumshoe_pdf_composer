@@ -1,51 +1,35 @@
-"""
-Example:
-
-    $ python src/gumshoe_pdf_composer/__main__.py \
-             temp/P2290101177/output.pdf  \
-             temp/P2290101177/10.pdf temp/P2290101177/11.pdf
-
-    # [ Created ]: temp/P2290101177/output.pdf
-
-"""
-
-from builtins import print, str, Exception, len, list
-
 import sys
+from builtins import str, print, exit, KeyError, sorted, ImportError
+import argparse
 
-from pikepdf import Pdf
+
+import importlib.metadata
 
 
-def compose(outfile, *files):
-    _output = Pdf.new()
-    for _f in files:
-        if str(_f).endswith('.pdf'):
-            _pdf = Pdf.open(_f)
-            _output.pages.extend(_pdf.pages)
-
-    _output.save(outfile)
-
-    print('[ Created ]:', outfile)
+def default():
+    print('gumshoe-pdf-composer')
 
 
 def main():
-    _outfile = ''
-    _files = []
-    _args = sys.argv
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--outputer', default='default')
+    args = parser.parse_args()
+
+    eps = importlib.metadata.entry_points()['pdf_composer.output']
+    outputers = {
+        entrypoint.name: entrypoint for entrypoint in eps
+    }
 
     try:
-        _outfile = _args[1]
-    except Exception as e:
-        print(e)
+        outputer = outputers[args.outputer].load()
+    except KeyError:
+        print(f'outputer {args.outputer} is not available!', file=sys.stderr)
+        print(f'available outputers: ({", ".join(sorted(outputers))})')
+        return 1
 
-    try:
-        _files.extend(_args[2:])
-    except Exception as e:
-        print(e)
-
-    if _outfile and len(list(_files)) > 0:
-        compose(_outfile, *_files)
+    outputer('Gumshoe PDF Composer')
+    return 0
 
 
 if __name__ == '__main__':
-    main()
+    exit(main())

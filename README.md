@@ -1,27 +1,33 @@
 # Gumshoe PDF Composer
 
 
-Composes one PDF file from the given PDF files, in the order they were given.
+Composes one PDF from the given pdf files, in the given sequence,
+then writes it to the given outfile path.
 
 
 ## Installation
 
-To install, run `pip install gumshoePDFComposer`
 
+To install, run `pip install pdfcomposer`
 
 
 ## Examples
 
+
+### Compose PDF 
+
+
 ```python
 
-import gumshoePDFComposer as compose
+from pdfcomposer import compose
 
 outfile = 'outfilename.pdf'
 files = ['infilename1.pdf', 'infilename2.pdf']
 compose(outfile, *files)
 
-# [ Created ]: outfilename.pdf
 
 ```
+
+
 
 
