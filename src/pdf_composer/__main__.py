@@ -2,20 +2,20 @@ import sys
 from builtins import str, print, exit, KeyError, sorted, ImportError
 import argparse
 
+import importlib_metadata
 
-import importlib.metadata
 
-
-def default():
-    print('gumshoe-pdf-composer')
+def default(*args):
+    print(*args)
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--outputer', default='default')
+    parser.add_argument('--files', nargs='*', default=sys.stdin)
     args = parser.parse_args()
 
-    eps = importlib.metadata.entry_points()['pdf_composer.output']
+    eps = importlib_metadata.entry_points()['pdf_composer.output']
     outputers = {
         entrypoint.name: entrypoint for entrypoint in eps
     }
@@ -27,7 +27,10 @@ def main():
         print(f'available outputers: ({", ".join(sorted(outputers))})')
         return 1
 
-    outputer('Gumshoe PDF Composer')
+    if args.files:
+        outputer(*args.files)
+    else:
+        outputer('Gumshoe PDF Composer')
     return 0
 
 
