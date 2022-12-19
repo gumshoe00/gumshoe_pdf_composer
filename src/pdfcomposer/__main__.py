@@ -5,15 +5,9 @@ import importlib_metadata
 
 
 def index(*args, **kwargs):
-    print(args)
-    print(kwargs)
-    # _output = set()
-    # if args:
-    #     _output.add(args)
-    # if kwargs:
-    #     _output.add(kwargs.copy())
-
-    # return [_n for _n in _output]
+    _eps = []
+    _eps.extend(kwargs.get('endpoints', []))
+    return _eps
 
 
 class Api:
@@ -33,12 +27,9 @@ class Api:
             print(f'available outputers: ({", ".join(sorted(self._outputers))})')
             return 1
         else:
-            _args = []
             if _outputer == 'index':
-                _args = sorted([_item[0] for _item in self._outputers.items()])
-
-            _args.extend([_a for _a in args])
-            return _fnc(*_args, **dict(_kws))
+                _kws.append(('endpoints', sorted([_item[0] for _item in self._outputers.items()])))
+            return _fnc(*args, **dict(_kws))
 
 
 def main() -> int:

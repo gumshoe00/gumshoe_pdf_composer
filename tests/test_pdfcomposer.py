@@ -6,6 +6,8 @@ from io import StringIO
 from pdfcomposer import Api
 
 
+MOC_DATA_DIR = pathlib.Path.cwd().parent.parent.parent.joinpath('mockdata')
+print('mock data dir: ', MOC_DATA_DIR)
 
 class TestPdfComposer(unittest.TestCase):
     @patch('sys.stdin', StringIO('pdfcomposer --outputer default'))
@@ -23,8 +25,10 @@ class TestPdfComposer(unittest.TestCase):
         self.assertEqual(stderr.getvalue(), err)
 
     def test_api(self):
-        _dir = pathlib.Path(__file__).parent.joinpath('mockdata')
         api = Api()
-        print(api('compose', *[str(_dir.joinpath('output.pdf')), str(_dir.joinpath('infile1.pdf')), str(_dir.joinpath('infile1.pdf'))]))
+        api(*[str(MOC_DATA_DIR.joinpath('output.pdf')),
+              str(MOC_DATA_DIR.joinpath('infile1.pdf')),
+              str(MOC_DATA_DIR.joinpath('infile1.pdf'))],
+            **dict(path='compose'))
 
-        self.assertTrue(_dir.joinpath('output.pdf').exists())
+        self.assertTrue(MOC_DATA_DIR.joinpath('output.pdf').exists())

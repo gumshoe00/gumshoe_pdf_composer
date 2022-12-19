@@ -25,7 +25,6 @@ setup(
     license=license_content,
     package_dir={'': 'src'},
     py_modules=find_packages("'src.pdfcomposer', 'src.pdfcomposer.*'"),
-
     install_requires=["setuptools", "importlib-metadata<5.0", "wheel"],
     python_requires='>=3.7',
     entry_points={

@@ -2,7 +2,7 @@
 
 
 Composes one PDF from the given pdf files, in the given sequence,
-then writes it to the given outfile path.
+then writes it to the given outfile.
 
 
 ## Installation
@@ -17,10 +17,10 @@ To install, run `pip install pdfcomposer`
 
 ```shell
 
-pdfcomposer --outputer default --args "hello world"
+pdfcomposer --outputer index
 
-# prints out the input.  
-# ('hello world',) {}
+# index outputers  
+# ('compose', 'index') 
 
 ```
 
@@ -43,14 +43,36 @@ pdfcomposer --outputer compose \
 
 ```python
 
-import pdfcomposer as composer
 
-args = './outfile.pdf', './infile1.pdf', './infile2.pdf'
+from pdfcomposer import Api
 
-kwargs = dict(title="My PDF", author="John Doe", 
-            subject="My first PDF", creator="John Doe")
+composer = Api()
 
-composer(*args, **kwargs)
+
+# index
+args = []
+
+kws = dict(path='index')
+
+result = composer(*args, **kws)
+
+print(result)
+
+
+
+# compose
+args = ['./outfile.pdf', './infile1.pdf', './infile2.pdf']
+
+kws = dict(path='compose',
+           title="My PDF",
+           author="John Doe",
+           subject="My first PDF",
+           creator="John Doe")
+
+result = composer(*args, **kws)
+
+print(result)
+
 
 # composes a PDF with the content of infile1.pdf then infile2.pdf
 # sets the PDF info with the given kwargs
