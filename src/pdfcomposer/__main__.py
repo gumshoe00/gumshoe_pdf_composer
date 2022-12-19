@@ -1,48 +1,44 @@
 import sys
-from builtins import str, print, exit, KeyError, sorted, ImportError
+from builtins import print, exit, KeyError, sorted
 import argparse
-
 import importlib_metadata
 
 
-def default(*args, **kwargs):
-    print(args, '\n', kwargs)
+def index(*args, **kwargs):
+    print(args)
+    print(kwargs)
+    # _output = set()
+    # if args:
+    #     _output.add(args)
+    # if kwargs:
+    #     _output.add(kwargs.copy())
+
+    # return [_n for _n in _output]
 
 
-class App:
+class Api:
     def __init__(self):
-        """init App
-
-
-        Example:
-
-            outputers (entrypoints - including plugins): {
-
-                'default': EntryPoint(name='default',
-                                      value='pdfcomposer.__main__:default',
-                                      group='pdfcomposer.output'),
-
-                'compose': EntryPoint(name='compose',
-                                      value='pdfcomposer_compose.__main__:main',
-                                      group='pdfcomposer.output')
-            }
-
-
-        """
-        eps = importlib_metadata.entry_points().select(group='pdfcomposer.output')
         self._outputers = {
-            entrypoint.name: entrypoint for entrypoint in eps
+            _ep.name: _ep for _ep in importlib_metadata.entry_points().select(group='pdfcomposer.output')
         }
 
-    def __call__(self, plugin='default', *args, **kwargs):
+    def __call__(self, *args, **kwargs):
+        _outputer = kwargs.get('path', 'index')
+        _kws = []
+        _kws.extend([_item for _item in kwargs.items() if _item[0] != 'outputer'])
         try:
-            outputer = self._outputers[plugin].load()
+            _fnc = self._outputers[_outputer].load()
         except KeyError:
-            print(f'outputer {plugin} is not available!', file=sys.stderr)
+            print(f'outputer {_outputer} is not available!', file=sys.stderr)
             print(f'available outputers: ({", ".join(sorted(self._outputers))})')
             return 1
         else:
-            return outputer(*args, **kwargs)
+            _args = []
+            if _outputer == 'index':
+                _args = sorted([_item[0] for _item in self._outputers.items()])
+
+            _args.extend([_a for _a in args])
+            return _fnc(*_args, **dict(_kws))
 
 
 def main() -> int:
@@ -53,7 +49,7 @@ def main() -> int:
     parser_args = parser.parse_args()
 
     _args = []
-    _kws = {}
+    _kws = {'path': parser_args.outputer}
     if parser_args.args:
         _args.extend(parser_args.args)
 
@@ -62,8 +58,8 @@ def main() -> int:
             _k, _v = _kv_str.split('=')
             _kws[_k] = _v
 
-    outputer = App()
-    outputer(parser_args.outputer, *_args, **_kws)
+    outputer = Api()
+    outputer(*_args, **_kws)
     return 0
 
 

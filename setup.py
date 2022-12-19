@@ -24,13 +24,13 @@ setup(
     maintainer_email='gumshoe.media.inc@gmail.com',
     license=license_content,
     package_dir={'': 'src'},
-    py_modules=find_packages('pdfcomposer'),
+    py_modules=find_packages("'src.pdfcomposer', 'src.pdfcomposer.*'"),
 
     install_requires=["setuptools", "importlib-metadata<5.0", "wheel"],
     python_requires='>=3.7',
     entry_points={
         "console_scripts": ["pdfcomposer=pdfcomposer.__main__:main",],
-        "pdfcomposer.output": ["default=pdfcomposer.__main__:default",],
+        "pdfcomposer.output": ["index=pdfcomposer.__main__:index",],
     },
     keywords=['PDF', 'composer', 'python3'],
     classifiers=[

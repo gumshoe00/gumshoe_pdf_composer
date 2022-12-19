@@ -1,8 +1,10 @@
+import pathlib
 import unittest
-
-
 from unittest.mock import patch
 from io import StringIO
+
+from pdfcomposer import Api
+
 
 
 class TestPdfComposer(unittest.TestCase):
@@ -20,13 +22,9 @@ class TestPdfComposer(unittest.TestCase):
         self.assertEqual(stdout.getvalue(), expected)
         self.assertEqual(stderr.getvalue(), err)
 
-    def test_main(self, stderr, stdout):
-        # Expect stderr
-        err = ''
+    def test_api(self):
+        _dir = pathlib.Path(__file__).parent.joinpath('mockdata')
+        api = Api()
+        print(api('compose', *[str(_dir.joinpath('output.pdf')), str(_dir.joinpath('infile1.pdf')), str(_dir.joinpath('infile1.pdf'))]))
 
-        # Expect stdout
-        expected = ''
-
-        # Check stdout and stderr
-        self.assertEqual(stdout.getvalue(), expected)
-        self.assertEqual(stderr.getvalue(), err)
+        self.assertTrue(_dir.joinpath('output.pdf').exists())
